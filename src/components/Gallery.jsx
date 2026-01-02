@@ -13,11 +13,16 @@ export default function Gallery() {
         const loadImages = async () => {
             setLoading(true);
             const data = await fetchImges(page);
-            setImages(data);
+            if (Array.isArray(data)) {
+                setImages(data);
+            }
+            else {
+                setImages([])
+            }
             setLoading(false)
         }
         loadImages()
-    }, [])
+    }, [page])
     return (
         <>
             <div className="flex items-center justify-between mb-4">

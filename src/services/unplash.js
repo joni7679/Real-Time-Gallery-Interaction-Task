@@ -13,7 +13,6 @@ export const fetchImges = async (page = 1) => {
                 per_page: 12,
             },
         });
-        console.log(res.data);
         return res.data
     } catch (error) {
         console.log("error", error);
