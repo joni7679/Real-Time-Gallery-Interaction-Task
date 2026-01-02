@@ -1,13 +1,23 @@
+import { useEffect, useState } from "react";
 import ImageCard from "./ImageCard";
+import { fetchImges } from "../services/unplash";
+import ShimmerEffect from "./ShimmerEffect";
 
-const images = [
-    "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
-    "https://images.unsplash.com/photo-1518791841217-8f162f1e1131",
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
-    "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
-];
+
 
 export default function Gallery() {
+    const [images, setImages] = useState([]);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false)
+    useEffect(() => {
+        const loadImages = async () => {
+            setLoading(true);
+            const data = await fetchImges(page);
+            setImages(data);
+            setLoading(false)
+        }
+        loadImages()
+    }, [])
     return (
         <>
             <div className="flex items-center justify-between mb-4">
@@ -17,14 +27,16 @@ export default function Gallery() {
                         Latest captures from the community
                     </p>
                 </div>
-
-               
             </div>
-
-            <div className="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
-                {images.map((img, i) => (
-                    <ImageCard key={i} img={img} />
-                ))}
+            <div className="w-full">
+                {
+                    loading ? <ShimmerEffect count={12} /> :
+                        <div className="grid md:grid-cols-3 gap-3">
+                            {images.map((img, i) => (
+                                <ImageCard key={i} img={img} />
+                            ))}
+                        </div>
+                }
             </div>
         </>
     );

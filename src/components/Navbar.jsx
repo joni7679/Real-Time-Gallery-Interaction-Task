@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom";
+
 export default function Navbar() {
     return (
         <header className="bg-white w-full shadow-md">
             <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-                <h1 className="text-xl font-bold text-purple-600">FotoOwl</h1>
-
+                <Link to={`/`} className="text-xl font-bold text-purple-600">FotoOwl</Link>
                 <div className="flex items-center gap-1 capitalize">
                     <h2>joni halder</h2>
                     <div className="flex items-center gap-4">
