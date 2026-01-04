@@ -2,29 +2,23 @@ import { useEffect, useState } from "react";
 import ImageCard from "./ImageCard";
 import { fetchImges } from "../services/unplash";
 import ShimmerEffect from "./ShimmerEffect";
-
-
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Gallery() {
     const [images, setImages] = useState([]);
     const [page, setPage] = useState(1);
-    const [loading, setLoading] = useState(false)
-    const handelInfiniteScroll = async () => {
-        
-        const scrollHeight = document.documentElement.scrollHeight;
-        const innerHeight = window.innerHeight;
-        const scrollTop = document.documentElement.scrollTop;
-        try {
-            if (scrollTop + innerHeight + 1 > scrollHeight) {
-                setPage(prev => prev + 1);
-            }
-        } catch (error) {
-            console.log("error", error);
-        }
-    }
+    const [loading, setLoading] = useState(false);
+    const [initialLoading, setInitialLoading] = useState(true);
+
     useEffect(() => {
         const loadImages = async () => {
-            setLoading(true);
+            if (page === 1) {
+                setLoading(true);
+                setInitialLoading(true)
+            }
+            else {
+                setLoading(false);
+            }
             const data = await fetchImges(page);
             if (Array.isArray(data)) {
                 setImages((prev) => [...prev, ...data]);
@@ -32,17 +26,12 @@ export default function Gallery() {
             else {
                 setImages([])
             }
-            setLoading(false)
+            setInitialLoading(false);
+            setLoading(false);
+
         }
         loadImages()
     }, [page])
-
-    useEffect(() => {
-        window.addEventListener("scroll", handelInfiniteScroll)
-        return () => {
-            window.removeEventListener("scroll", handelInfiniteScroll)
-        }
-    }, [])
 
     return (
         <>
@@ -54,15 +43,19 @@ export default function Gallery() {
                     </p>
                 </div>
             </div>
+
             <div className="w-full ">
-                <div className="grid md:grid-cols-3 gap-3">
-                    {images.map((img) => (
-                        <ImageCard key={img.id} img={img} />
-                    ))}
-                </div>
-                {
-                    loading && <ShimmerEffect />
-                }
+                <InfiniteScroll
+                    dataLength={images.length}
+                    next={() => setPage(prev => prev + 1)}
+                    hasMore={true}
+                    loader={!initialLoading && <ShimmerEffect />}>
+                    <div className="grid md:grid-cols-3 gap-3">
+                        {images.map((img) => (
+                            <ImageCard key={img.id} img={img} />
+                        ))}
+                    </div>
+                </InfiniteScroll>
             </div>
         </>
     );
