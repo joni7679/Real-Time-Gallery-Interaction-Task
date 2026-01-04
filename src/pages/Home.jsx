@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <>
       <main>
-        <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-12 gap-6">
+        <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-12 gap-6 mt-20">
           <div className="col-span-9">
             <Gallery/>
           </div>
