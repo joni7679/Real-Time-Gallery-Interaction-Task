@@ -1,9 +1,8 @@
 
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home";
-import ImgDetlist from "../pages/ImgDetlist";
 import App from "../App";
-
+import Imgdetails from '../pages/Imgdetails'
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -14,8 +13,8 @@ export const router = createBrowserRouter([
                 element: <Home />
             },
             {
-                path: "/gallerydetlist",
-                element: <ImgDetlist />
+                path: "/gallerydetails/:id",
+                element: <Imgdetails/>
             }
         ]
     },
