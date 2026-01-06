@@ -4,7 +4,6 @@ import { CreateRandomUser } from "../utils/randomusergen";
 
 export default function Navbar() {
     const [userid, setUserid] = useState(null);
-
     useEffect(() => {
         let storeUserId = localStorage.getItem("userId");
         if (!storeUserId) {
@@ -13,9 +12,6 @@ export default function Navbar() {
         }
         setUserid(storeUserId)
     }, [])
-
-
-
     return (
         <header className="bg-white w-full shadow-md  fixed top-0 left-0 z-50">
             <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">

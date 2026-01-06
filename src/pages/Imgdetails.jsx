@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ShimmerCard from '../components/ShimmerCard';
+import Comments from '../components/Comments';
 
 const ImgDetlist = () => {
     const { id } = useParams();
@@ -55,6 +56,7 @@ const ImgDetlist = () => {
                             </div>
                         </div>
                     </div>
+                    <Comments imgid={id}/>
                 </div>
             </section>
         </>
