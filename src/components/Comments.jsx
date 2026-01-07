@@ -20,27 +20,29 @@ const Comments = ({ imgid }) => {
             setIsDisable(false)
         }
     }
-
+    const newCommentId = id();
+    const newFeedId = id();
     // handleComment logic here...
     const handleComment = async () => {
         if (!comment.trim()) return;
         try {
             setLoading(true);
             await db.transact(
-                db.tx.comments[id()].update({
+                [
+                    db.tx.comments[newCommentId].update({
                     imageId: imgid,
                     userId: storeUserId,
                     text: comment,
                     createdAt: new Date().toISOString()
                 }),
-                db.tx.feed[id()].update({
+                db.tx.feed[newFeedId].update({
                     type: "comment",
                     imageId: imgid,
                     userId: storeUserId,
                     text: comment,
                     createdAt: new Date().toISOString()
                 })
-            );
+            ]);
             setComment("");
             setIsDisable(false);
         } catch (error) {

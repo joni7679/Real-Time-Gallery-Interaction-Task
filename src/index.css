@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+
+@media screen and (max-width:600px) {
+    .feeditem {
+        width: 300px;
+        position: absolute;
+        right: -7px;
+    }
+}

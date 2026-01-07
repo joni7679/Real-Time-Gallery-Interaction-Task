@@ -90,7 +90,8 @@ const ImgDetlist = () => {
                                                 <div>
                                                     <p><span className='text-sm'>{c.userId}</span></p>
                                                 </div>
-                                                <p >{c.text}</p>
+                                                <p className='font-medium capitalize '>{c.text}</p>
+                                                <p className='text-sm'>{new Date(c.createdAt).toLocaleString("en-IN")}</p>
                                             </div>
                                         ))
                                 }

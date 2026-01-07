@@ -1,7 +1,6 @@
 import { createContext, useMemo } from "react";
 import { db } from "../db/instant";
 
-
 export const DataContext = createContext();
 const DataContextProvider = ({ children }) => {
     const { data: commentData } = db.useQuery({ comments: {} })
@@ -26,7 +25,7 @@ const DataContextProvider = ({ children }) => {
 
 
     const storeFeedData = useMemo(() => {
-        return (feedData?.feed || []).slice().sort((a, b) => b.createdAt - a.createdAt)
+        return (feedData?.feed || []).slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     }, [feedData])
 
     return <DataContext.Provider value={{ comments: commentData?.comments || [], commentCountByImage, feed: storeFeedData, reactionCountByImage }}>
