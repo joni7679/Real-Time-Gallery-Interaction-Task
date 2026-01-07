@@ -26,9 +26,7 @@ const DataContextProvider = ({ children }) => {
 
 
     const storeFeedData = useMemo(() => {
-        return (feedData?.feed || [].slice().sort(
-            (a, b) => b.b.createdAt - a.createdAt
-        ))
+        return (feedData?.feed || []).slice().sort((a, b) => b.createdAt - a.createdAt)
     }, [feedData])
 
     return <DataContext.Provider value={{ comments: commentData?.comments || [], commentCountByImage, feed: storeFeedData, reactionCountByImage }}>
