@@ -5,22 +5,24 @@ import { Link, useParams } from 'react-router-dom'
 import ShimmerCard from '../components/ShimmerCard';
 import Comments from '../components/Comments';
 import { DataContext } from '../context/DataContext';
+import { db, id } from '../db/instant';
 
 const ImgDetlist = () => {
-    const { commentCountByImage, comments } = useContext(DataContext)
-    const { id } = useParams();
+    const { comments } = useContext(DataContext)
+    const { id: imageId } = useParams();
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
     const Access_Key = import.meta.env.VITE_UNSPLASH_KEY
+    const reactions = ["❤️", "😂", "👍", "🔥", "😮"];
+    let userId = localStorage.getItem("userId");
     const fetchImges = async () => {
         try {
             setLoading(true)
-            const res = await axios.get(`https://api.unsplash.com/photos/${id}`,
+            const res = await axios.get(`https://api.unsplash.com/photos/${imageId}`,
                 {
                     headers: { Authorization: `Client-ID ${Access_Key}`, },
 
-                });
-            console.log(res.data.urls.regular);
+                })
             setData(res.data)
         } catch (error) {
             console.log("error", error);
@@ -30,17 +32,34 @@ const ImgDetlist = () => {
             setLoading(false)
         }
     }
-    const imageId = id;
 
     const imageComments = comments.filter(c => c.imageId === imageId);
 
+    const handelReaction = async (reaction) => {
+        await db.transact([
+            db.tx.reactions[id()].update({
+                imageId: imageId,
+                userId: userId,
+                emoji: reaction,
+                createdAt: Date.now().toLocaleString()
+            }),
+            db.tx.feed[id()].update({
+                type: "like",
+                imageId: imageId,
+                userId: userId,
+                emoji: reaction,
+                createdAt: Date.now().toLocaleString()
+            }),
+        ])
+    }
     useEffect(() => {
         fetchImges()
-    }, [id])
+    }, [imageId])
 
     if (loading) {
         return <ShimmerCard />
     }
+
 
     return (
         <>
@@ -49,7 +68,15 @@ const ImgDetlist = () => {
                     <div className="img box w-full h-72 rounded-2xl overflow-hidden">
                         <img loading='lazy' src={data.urls.regular} alt={data.alt_description || "unsplash image"} className="w-full h-72 object-cover" />
                     </div>
-                    <div className="reactions-box w-full p-5 rounded  mt-5"></div>
+                    <div className="reactions-box w-full  rounded  mt-5 flex items-start justify-center gap-3.5">
+                        {reactions.map((reaction, index) => {
+                            return (
+                                <div onClick={() => handelReaction(reaction)} key={index} className='px-4 py-3 rounded-2xl bg-gray-200 shadow-lg cursor-pointer hover:bg-blue-800 duration-150'>
+                                    {reaction}
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
                 <div className='max-w-md w-full shadow-lg rounded-2xl'>
                     <div className="comment-list w-full p-12 rounded  mt-5">
@@ -70,7 +97,7 @@ const ImgDetlist = () => {
                             </div>
                         </div>
                     </div>
-                    <Comments imgid={id} />
+                    <Comments imgid={imageId} />
                 </div>
             </section>
         </>

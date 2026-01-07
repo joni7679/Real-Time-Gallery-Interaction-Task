@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
 
 export default function ImageCard({ img }) {
-    const { commentCountByImage, comments } = useContext(DataContext)
+    const { commentCountByImage, reactionCountByImage } = useContext(DataContext)
     return (
         <>
             <Link to={`/gallerydetails/${img.id}`} className="bg-white rounded-xl overflow-hidden shadow-sm">
@@ -13,7 +13,7 @@ export default function ImageCard({ img }) {
                     <div className="flex items-center gap-3 text-gray-500 text-sm">
                         <div className="flex items-center gap-1">
                             <Heart className="text-xl" />
-                            <span>24</span>
+                            <span>{reactionCountByImage[img.id] || 0}</span>
                         </div>
                         <div className="flex items-center gap-1">
                             <MessageCircle className="text-xl" />

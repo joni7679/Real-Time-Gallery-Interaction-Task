@@ -1,7 +1,7 @@
 import { Loader, SendHorizontal } from 'lucide-react'
 import React, { useState } from 'react'
-import { db } from '../db/instant';
-import { id } from "@instantdb/react";
+import { db, id } from '../db/instant';
+
 
 const Comments = ({ imgid }) => {
     const [comment, setComment] = useState("");
@@ -32,17 +32,17 @@ const Comments = ({ imgid }) => {
                     imageId: imgid,
                     userId: storeUserId,
                     text: comment,
-                    createdAt: Date.now().toLocaleString()
+                    createdAt: new Date().toISOString()
                 }),
                 db.tx.feed[id()].update({
                     type: "comment",
                     imageId: imgid,
                     userId: storeUserId,
                     text: comment,
-                    createdAt: Date.now().toLocaleString()
+                    createdAt: new Date().toISOString()
+
                 })
             );
-
             setComment("");
             setIsDisable(false);
         } catch (error) {

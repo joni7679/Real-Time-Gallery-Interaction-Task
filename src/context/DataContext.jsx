@@ -16,13 +16,22 @@ const DataContextProvider = ({ children }) => {
         return map
     }, [commentData])
 
+    const reactionCountByImage = useMemo(() => {
+        const map = {};
+        reactionData?.reactions?.forEach((rec) => {
+            map[rec.imageId] = (map[rec.imageId] || 0) + 1;
+        })
+        return map
+    }, [reactionData])
+
+
     const storeFeedData = useMemo(() => {
         return (feedData?.feed || [].slice().sort(
             (a, b) => b.b.createdAt - a.createdAt
         ))
-    },[feedData])
+    }, [feedData])
 
-    return <DataContext.Provider value={{ comments: commentData?.comments || [], commentCountByImage, feed: storeFeedData }}>
+    return <DataContext.Provider value={{ comments: commentData?.comments || [], commentCountByImage, feed: storeFeedData, reactionCountByImage }}>
         {children}
     </DataContext.Provider>
 }
