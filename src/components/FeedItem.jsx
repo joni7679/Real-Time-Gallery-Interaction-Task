@@ -20,7 +20,6 @@ export default function FeedItem() {
                             <p>
                                 {f.userId} liked image {f.imageId}
                                 {f.emoji}
-                                {f.imageId}
                             </p>
                         )}
                     </div>

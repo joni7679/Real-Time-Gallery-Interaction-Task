@@ -24,7 +24,6 @@ const Comments = ({ imgid }) => {
     // handleComment logic here...
     const handleComment = async () => {
         if (!comment.trim()) return;
-
         try {
             setLoading(true);
             await db.transact(
@@ -40,7 +39,6 @@ const Comments = ({ imgid }) => {
                     userId: storeUserId,
                     text: comment,
                     createdAt: new Date().toISOString()
-
                 })
             );
             setComment("");
@@ -58,17 +56,15 @@ const Comments = ({ imgid }) => {
         }
     }
 
-
     return (
         <>
             <div className='w-full max-w-md rounded-2xl shadow-md p-4 relative'>
                 <input type="text" placeholder='Enter your commnet...' className='px-2 py-3 rounded-2xl shadow w-full border border-gray-500 outline-0' value={comment} onChange={handelOnchange} onKeyDown={handelKeyDown} />
                 {
-                    !loading && disable && <SendHorizontal onClick={handleComment} className="text-blue-700 cursor-pointer absolute top-[24px] right-[28px]" />
+                    !loading && disable && <SendHorizontal onClick={handleComment} className="text-blue-700 cursor-pointer absolute top-6 right-7" />
                 }
                 {
-                    loading && <Loader className="text-blue-700 animate-pulse cursor-pointer absolute top-[24px] right-[28px]" />
-
+                    loading && <Loader className="text-blue-700 animate-pulse cursor-pointer absolute top-6 right-7" />
                 }
             </div>
         </>
