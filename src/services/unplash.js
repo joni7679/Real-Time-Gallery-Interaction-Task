@@ -5,8 +5,6 @@ export const fetchImges = async (page = 1) => {
         const res = await axios.get(`https://api.unsplash.com/photos`, 
             {headers: {Authorization: `Client-ID ${Access_Key}`,},
             params: {page: page,per_page: 12,},});
-            console.log(res.data);
-            
         return res.data
     } catch (error) {
         console.log("error", error);

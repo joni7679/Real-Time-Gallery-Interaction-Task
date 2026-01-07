@@ -9,10 +9,7 @@ export default function LiveFeed() {
                     <h3 className="font-semibold">Live Activity</h3>
                 </div>
                 <div className="space-y-3">
-                    <FeedItem text="User_92 reacted ❤️ to Mountain" />
-                    <FeedItem text="Sarah_Dev commented: Love the lighting" />
-                    <FeedItem text="Mike_R reacted 🔥 to Urban Night" />
-                    <FeedItem text="Alex_Studio uploaded 3 new photos" />
+                   <FeedItem/>
                 </div>
             </div>
         </>

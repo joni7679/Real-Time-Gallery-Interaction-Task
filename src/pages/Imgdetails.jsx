@@ -1,17 +1,18 @@
 
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ShimmerCard from '../components/ShimmerCard';
 import Comments from '../components/Comments';
+import { DataContext } from '../context/DataContext';
 
 const ImgDetlist = () => {
+    const { commentCountByImage, comments } = useContext(DataContext)
     const { id } = useParams();
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
     const Access_Key = import.meta.env.VITE_UNSPLASH_KEY
     const fetchImges = async () => {
-
         try {
             setLoading(true)
             const res = await axios.get(`https://api.unsplash.com/photos/${id}`,
@@ -29,6 +30,9 @@ const ImgDetlist = () => {
             setLoading(false)
         }
     }
+    const imageId = id;
+
+    const imageComments = comments.filter(c => c.imageId === imageId);
 
     useEffect(() => {
         fetchImges()
@@ -49,14 +53,24 @@ const ImgDetlist = () => {
                 </div>
                 <div className='max-w-md w-full shadow-lg rounded-2xl'>
                     <div className="comment-list w-full p-12 rounded  mt-5">
-                        <div className="comment-box">
+                        <div className="comment-box w-ull h-48 overflow-x-scroll">
                             <div className="username">
-                                <p className='text-xl capitalize'>Joni halder</p>
-                                <p className='text-sm capitalize'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae repellendus sequi magnam.</p>
+                                {
+                                    imageComments.length === 0 ? <p className='font-semibold capitalize text-shadow-md'> no comments</p>
+                                        :
+                                        imageComments.map(c => (
+                                            <div key={c.id} className='p-4 shadow mt-5'>
+                                                <div>
+                                                    <p><span className='text-sm'>{c.userId}</span></p>
+                                                </div>
+                                                <p >{c.text}</p>
+                                            </div>
+                                        ))
+                                }
                             </div>
                         </div>
                     </div>
-                    <Comments imgid={id}/>
+                    <Comments imgid={id} />
                 </div>
             </section>
         </>

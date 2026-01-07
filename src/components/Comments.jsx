@@ -33,8 +33,16 @@ const Comments = ({ imgid }) => {
                     userId: storeUserId,
                     text: comment,
                     createdAt: Date.now().toLocaleString()
+                }),
+                db.tx.feed[id()].update({
+                    type: "comment",
+                    imageId: imgid,
+                    userId: storeUserId,
+                    text: comment,
+                    createdAt: Date.now().toLocaleString()
                 })
             );
+
             setComment("");
             setIsDisable(false);
         } catch (error) {
