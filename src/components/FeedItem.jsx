@@ -3,8 +3,6 @@ import { DataContext } from "../context/DataContext";
 
 export default function FeedItem() {
     const { feed } = useContext(DataContext)
-    console.log("feed", feed);
-
     return (
         <>
             <div className="space-y-3 h-40 overflow-x-scroll ">
