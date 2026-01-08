@@ -9,7 +9,7 @@ and see all interactions update **instantly in real time** across all users.
  Live Demo
 
 **Live Application:**  
-[https://your-live-link-here.vercel.app](https://real-time-gallery-interaction-task.vercel.app/)
+[(https://real-time-gallery-interaction-task.vercel.app/)]
 
 ##  Assignment Goal
 
